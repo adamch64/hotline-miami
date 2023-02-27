@@ -77,7 +77,8 @@ public class movement : MonoBehaviour
             {
                 currentWeapon = pickUp.transform;
                 currentWeapon.parent = weaponPosition;
-                currentWeapon.GetComponent<GameObject>().layer = 0;
+                currentWeapon.gameObject.layer = 0;
+                currentWeapon.rotation = transform.rotation;
                 haveWeapon = true;
             }
         }
@@ -93,7 +94,7 @@ public class movement : MonoBehaviour
                 currentWeapon.parent = null;
                 haveWeapon = false;
                 currentWeapon.GetComponent<Rigidbody2D>().AddForce(transform.up * throwPower, ForceMode2D.Impulse);
-                currentWeapon.GetComponent<GameObject>().layer = weaponMask;
+                currentWeapon.gameObject.layer = 6;
             }
         }
     }
