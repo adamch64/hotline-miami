@@ -17,6 +17,7 @@ public class movement : MonoBehaviour
     [SerializeField] private LayerMask weaponMask;
     [SerializeField] private float range;
     [SerializeField] private Transform weaponPosition;
+    [SerializeField] private float throwPower;
 
     // Start is called before the first frame update
     void Start()
@@ -62,21 +63,36 @@ public class movement : MonoBehaviour
 
     void PickingUpWeapons()
     {
-        RaycastHit2D pickUp = Physics2D.CircleCast(transform.position, range, Vector2.zero, 0, weaponMask);
-        if(!Input.GetKeyDown(pickupButton))
-            return;
-        if(pickUp)
-        {
-            currentWeapon = pickUp.transform;
-            currentWeapon.parent = weaponPosition;
-            haveWeapon = true;
-        }
+        
     }
 
     void holdWeapon()
     {
         if(!haveWeapon)
-            return;
-        currentWeapon.position = weaponPosition.position;
+        {
+            RaycastHit2D pickUp = Physics2D.CircleCast(transform.position, range, Vector2.zero, 0, weaponMask);
+            if(!Input.GetKeyDown(pickupButton))
+                return;
+            if(pickUp)
+            {
+                currentWeapon = pickUp.transform;
+                currentWeapon.parent = weaponPosition;
+                haveWeapon = true;
+            }
+        }
+        else 
+        {    
+            if(!Input.GetKeyDown(pickupButton))
+            {
+                currentWeapon.position = weaponPosition.position;
+                return;
+            }
+            else
+            {
+                currentWeapon.parent = null;
+                haveWeapon = false;
+                currentWeapon.GetComponent<Rigidbody2D>().AddForce(transform.up * throwPower, ForceMode2D.Impulse);
+            }
+        }
     }
 }
