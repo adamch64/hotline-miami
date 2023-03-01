@@ -6,6 +6,7 @@ public class movement : MonoBehaviour
 {
     [Header("keybinds")]
     [SerializeField] private KeyCode pickupButton = KeyCode.Space;
+    [SerializeField] private KeyCode attackButton = KeyCode.Mouse0;
     [Header("movement")]
     private Rigidbody2D rb;
     [SerializeField] private float speed;
@@ -32,8 +33,9 @@ public class movement : MonoBehaviour
         MousePosition();
         RotatePlayer();
         MovePlayer();
-        PickingUpWeapons();
         holdWeapon();
+        if(haveWeapon)
+            attacking();
     }
 
     void MyInput() 
@@ -59,11 +61,6 @@ public class movement : MonoBehaviour
         Vector3 mousePos = Input.mousePosition;
         mousePos.z = Camera.main.nearClipPlane;
         mouseWorldPosition = Camera.main.ScreenToWorldPoint(mousePos);
-    }
-
-    void PickingUpWeapons()
-    {
-        
     }
 
     void holdWeapon()
@@ -95,7 +92,15 @@ public class movement : MonoBehaviour
                 haveWeapon = false;
                 currentWeapon.GetComponent<Rigidbody2D>().AddForce(transform.up * throwPower, ForceMode2D.Impulse);
                 currentWeapon.gameObject.layer = 6;
+                currentWeapon = null;
             }
+        }
+    }
+
+    void attacking()
+    {
+        if(Input.GetKeyDown(attackButton)) {
+            currentWeapon.GetComponent<weapon>().attack();
         }
     }
 }
