@@ -91,6 +91,7 @@ public class movement : MonoBehaviour
                 currentWeapon.parent = null;
                 haveWeapon = false;
                 currentWeapon.GetComponent<Rigidbody2D>().AddForce(transform.up * throwPower, ForceMode2D.Impulse);
+                currentWeapon.GetComponent<weapon>().thrown = true;
                 currentWeapon.gameObject.layer = 6;
                 currentWeapon = null;
             }
