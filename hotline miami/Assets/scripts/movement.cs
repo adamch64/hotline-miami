@@ -7,6 +7,7 @@ public class movement : MonoBehaviour
     [Header("keybinds")]
     [SerializeField] private KeyCode pickupButton = KeyCode.Space;
     [SerializeField] private KeyCode attackButton = KeyCode.Mouse0;
+    [SerializeField] private KeyCode useButton = KeyCode.E;
     [Header("movement")]
     private Rigidbody2D rb;
     [SerializeField] private float speed;
@@ -16,6 +17,7 @@ public class movement : MonoBehaviour
     public Transform currentWeapon;
     private bool haveWeapon;
     [SerializeField] private LayerMask weaponMask;
+    [SerializeField] private LayerMask shoppingCartMask;
     [SerializeField] private float range;
     [SerializeField] private Transform weaponPosition;
     [SerializeField] private float throwPower;
@@ -73,9 +75,7 @@ public class movement : MonoBehaviour
             if(pickUp)
             {
                 currentWeapon = pickUp.transform;
-                currentWeapon.parent = weaponPosition;
                 currentWeapon.gameObject.layer = 0;
-                currentWeapon.rotation = transform.rotation;
                 haveWeapon = true;
             }
         }
@@ -84,11 +84,11 @@ public class movement : MonoBehaviour
             if(!Input.GetKeyDown(pickupButton))
             {
                 currentWeapon.position = weaponPosition.position;
+                currentWeapon.rotation = transform.rotation;
                 return;
             }
             else
             {
-                currentWeapon.parent = null;
                 haveWeapon = false;
                 currentWeapon.GetComponent<Rigidbody2D>().AddForce(transform.up * throwPower, ForceMode2D.Impulse);
                 currentWeapon.GetComponent<weapon>().thrown = true;
@@ -102,6 +102,17 @@ public class movement : MonoBehaviour
     {
         if(Input.GetKeyDown(attackButton)) {
             currentWeapon.GetComponent<weapon>().attack();
+        }
+    }
+
+    void useItem()
+    {
+        RaycastHit2D hit = Physics2D.CircleCast(transform.position, 2, Vector2.zero, 0, shoppingCartMask);
+        if(hit) {
+            if(Input.GetKeyDown(useButton)) {
+                hit.transform.GetComponent<shoppingCart>().used = true;
+                hit.transform.gameObject.layer = 0;
+            }
         }
     }
 }

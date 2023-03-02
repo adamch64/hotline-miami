@@ -29,7 +29,7 @@ public class weapon : MonoBehaviour
             RaycastHit2D hit = Physics2D.CircleCast(transform.position, radius, Vector2.zero, 0, enemyMask);
             if(hit) {
                 hit.transform.GetComponent<enemy>().die();
-                rb.velocity /= 5;
+                rb.velocity /= 10;
                 thrown = false;
             }
         }
