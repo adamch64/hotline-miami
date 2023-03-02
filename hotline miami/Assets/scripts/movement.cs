@@ -19,13 +19,15 @@ public class movement : MonoBehaviour
     [SerializeField] private LayerMask weaponMask;
     [SerializeField] private LayerMask shoppingCartMask;
     [SerializeField] private float range;
-    [SerializeField] private Transform weaponPosition;
+    [SerializeField] private Transform weaponPositionLeft, weaponPositionRight;
+    private Transform currentWeaponPosition;
     [SerializeField] private float throwPower;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        currentWeaponPosition = weaponPositionRight;
     }
 
     // Update is called once per frame
@@ -85,7 +87,8 @@ public class movement : MonoBehaviour
         {    
             if(!Input.GetKeyDown(pickupButton))
             {
-                currentWeapon.position = weaponPosition.position;
+                currentWeapon.position = currentWeaponPosition.position;
+                // currentWeapon.position = Vector3.Lerp(currentWeapon.position, currentWeaponPosition.position, 150 * Time.deltaTime);
                 currentWeapon.rotation = transform.rotation;
                 return;
             }
@@ -103,6 +106,10 @@ public class movement : MonoBehaviour
     void attacking()
     {
         if(Input.GetKeyDown(attackButton)) {
+            if(currentWeaponPosition == weaponPositionLeft)
+                currentWeaponPosition = weaponPositionRight;
+            else if(currentWeaponPosition == weaponPositionRight)
+                currentWeaponPosition = weaponPositionLeft;
             currentWeapon.GetComponent<weapon>().attack();
         }
     }
