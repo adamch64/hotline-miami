@@ -11,6 +11,7 @@ public class weapon : MonoBehaviour
     public weapon_type weaponType;
     private Animator anim;
     private Rigidbody2D rb;
+    public Transform player;
     [HideInInspector] public bool thrown;
     [SerializeField] private LayerMask enemyMask;
     [SerializeField] private float radius;
@@ -28,7 +29,7 @@ public class weapon : MonoBehaviour
         if(rb.velocity.magnitude > 0.5f) {
             RaycastHit2D hit = Physics2D.CircleCast(transform.position, radius, Vector2.zero, 0, enemyMask);
             if(hit) {
-                hit.transform.GetComponent<enemy>().die();
+                hit.transform.GetComponent<enemy>().die(-hit.normal);
                 rb.velocity /= 10;
                 thrown = false;
             }
@@ -40,7 +41,7 @@ public class weapon : MonoBehaviour
             RaycastHit2D[] hit =  Physics2D.CircleCastAll(transform.position, radius, transform.forward, distance, enemyMask);
             for (int i = 0; i < hit.Length; i++)
             {
-                hit[i].transform.GetComponent<enemy>().die();
+                hit[i].transform.GetComponent<enemy>().die(-hit[i].normal);
             }
         }
         else if(weaponType == weapon_type.rifle) {

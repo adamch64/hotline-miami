@@ -76,6 +76,7 @@ public class movement : MonoBehaviour
             if(pickUp)
             {
                 currentWeapon = pickUp.transform;
+                currentWeapon.GetComponent<weapon>().player = transform;
                 currentWeapon.gameObject.layer = 0;
                 haveWeapon = true;
             }
