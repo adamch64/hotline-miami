@@ -78,9 +78,11 @@ public class movement : MonoBehaviour
             if(pickUp)
             {
                 currentWeapon = pickUp.transform;
+                currentWeapon.parent = transform;
                 currentWeapon.GetComponent<weapon>().player = transform;
                 currentWeapon.gameObject.layer = 0;
                 haveWeapon = true;
+                currentWeapon.GetComponent<weapon>().pickedUp = haveWeapon;
             }
         }
         else 
@@ -88,7 +90,6 @@ public class movement : MonoBehaviour
             if(!Input.GetKeyDown(pickupButton))
             {
                 currentWeapon.position = currentWeaponPosition.position;
-                // currentWeapon.position = Vector3.Lerp(currentWeapon.position, currentWeaponPosition.position, 150 * Time.deltaTime);
                 currentWeapon.rotation = transform.rotation;
                 return;
             }
@@ -97,6 +98,8 @@ public class movement : MonoBehaviour
                 haveWeapon = false;
                 currentWeapon.GetComponent<Rigidbody2D>().AddForce(transform.up * throwPower, ForceMode2D.Impulse);
                 currentWeapon.GetComponent<weapon>().thrown = true;
+                currentWeapon.GetComponent<weapon>().pickedUp = haveWeapon;
+                currentWeapon.parent = null;
                 currentWeapon.gameObject.layer = 6;
                 currentWeapon = null;
             }
@@ -106,10 +109,6 @@ public class movement : MonoBehaviour
     void attacking()
     {
         if(Input.GetKeyDown(attackButton)) {
-            if(currentWeaponPosition == weaponPositionLeft)
-                currentWeaponPosition = weaponPositionRight;
-            else if(currentWeaponPosition == weaponPositionRight)
-                currentWeaponPosition = weaponPositionLeft;
             currentWeapon.GetComponent<weapon>().attack();
         }
     }
