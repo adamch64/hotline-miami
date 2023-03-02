@@ -38,6 +38,7 @@ public class movement : MonoBehaviour
         holdWeapon();
         if(haveWeapon)
             attacking();
+        useItem();
     }
 
     void MyInput() 
@@ -107,7 +108,7 @@ public class movement : MonoBehaviour
 
     void useItem()
     {
-        RaycastHit2D hit = Physics2D.CircleCast(transform.position, 2, Vector2.zero, 0, shoppingCartMask);
+        RaycastHit2D hit = Physics2D.CircleCast(transform.position, range, Vector2.zero, 0, shoppingCartMask);
         if(hit) {
             if(Input.GetKeyDown(useButton)) {
                 hit.transform.GetComponent<shoppingCart>().used = true;

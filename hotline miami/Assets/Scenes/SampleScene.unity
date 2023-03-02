@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 314947857}
   - component: {fileID: 314947859}
   - component: {fileID: 314947858}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: wall (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -245,7 +245,7 @@ GameObject:
   - component: {fileID: 333855937}
   - component: {fileID: 333855939}
   - component: {fileID: 333855938}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -720,7 +720,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 637470690}
-  speed: 5
+  speed: 7
   offset: {x: 0, y: 0, z: -10}
 --- !u!4 &637470690 stripped
 Transform:
@@ -862,7 +862,7 @@ GameObject:
   - component: {fileID: 1190627196}
   - component: {fileID: 1190627198}
   - component: {fileID: 1190627197}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: wall (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1097,7 +1097,7 @@ GameObject:
   - component: {fileID: 1540054334}
   - component: {fileID: 1540054336}
   - component: {fileID: 1540054335}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: wall (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1208,7 +1208,6 @@ GameObject:
   - component: {fileID: 1627089217}
   - component: {fileID: 1627089216}
   - component: {fileID: 1627089215}
-  - component: {fileID: 1627089214}
   - component: {fileID: 1627089213}
   m_Layer: 8
   m_Name: shopping cart
@@ -1229,30 +1228,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1d7811e704fec14aaa0e91bb43f253f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 1627089214}
-  speed: 3
+  speed: 10
   used: 0
---- !u!50 &1627089214
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1627089212}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 2
-  m_CollisionDetection: 0
-  m_Constraints: 4
+  wallMask:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!61 &1627089215
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1481,7 +1461,7 @@ GameObject:
   - component: {fileID: 1722258880}
   - component: {fileID: 1722258882}
   - component: {fileID: 1722258881}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: wall (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1714,7 +1694,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2066085990}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: shop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1791,6 +1771,10 @@ PrefabInstance:
     - target: {fileID: 1858512886352042880, guid: 92ebd65307d23bb48aa6fea2256ec87c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1858512886352042882, guid: 92ebd65307d23bb48aa6fea2256ec87c, type: 3}
+      propertyPath: range
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1858512886352042882, guid: 92ebd65307d23bb48aa6fea2256ec87c, type: 3}
       propertyPath: shoppingCartMask.m_Bits
