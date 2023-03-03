@@ -15,13 +15,13 @@ public class movement : MonoBehaviour
     Vector2 mouseWorldPosition;
     [Header("weapons")]
     public Transform currentWeapon;
-    private bool haveWeapon;
+    public bool haveWeapon;
     [SerializeField] private LayerMask weaponMask;
     [SerializeField] private LayerMask shoppingCartMask;
     [SerializeField] private float range;
     [SerializeField] private Transform weaponPositionLeft, weaponPositionRight;
     private Transform currentWeaponPosition;
-    [SerializeField] private float throwPower;
+    public float throwPower;
 
     // Start is called before the first frame update
     void Start()
@@ -77,13 +77,7 @@ public class movement : MonoBehaviour
                 return;
             if(pickUp)
             {
-                currentWeapon = pickUp.transform;
-                currentWeapon.parent = transform;
-                currentWeapon.GetComponent<Animator>().enabled = true;
-                currentWeapon.GetComponent<weapon>().player = transform;
-                currentWeapon.gameObject.layer = 0;
-                haveWeapon = true;
-                currentWeapon.GetComponent<weapon>().pickedUp = haveWeapon;
+                pickUp.transform.GetComponent<weapon>().pickingUp(transform.GetComponent<movement>());
             }
         }
         else 
@@ -96,13 +90,7 @@ public class movement : MonoBehaviour
             }
             else
             {
-                haveWeapon = false;
-                currentWeapon.GetComponent<Rigidbody2D>().AddForce(transform.up * throwPower, ForceMode2D.Impulse);
-                currentWeapon.GetComponent<weapon>().thrown = true;
-                currentWeapon.GetComponent<weapon>().pickedUp = haveWeapon;
-                currentWeapon.parent = null;
-                currentWeapon.gameObject.layer = 6;
-                currentWeapon = null;
+                currentWeapon.GetComponent<weapon>().Throwing(transform.GetComponent<movement>());
             }
         }
     }

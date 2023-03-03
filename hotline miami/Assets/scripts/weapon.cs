@@ -13,7 +13,7 @@ public class weapon : MonoBehaviour
     private Rigidbody2D rb;
     private BoxCollider2D bc;
     public Transform player;
-    [HideInInspector] public bool thrown;
+    public bool thrown;
     [SerializeField] private LayerMask enemyMask;
     [SerializeField] private float radius;
     [SerializeField] private float distance;
@@ -45,13 +45,17 @@ public class weapon : MonoBehaviour
             return;
         anim.enabled = false;
         if(rb.velocity.magnitude > 0.5f) {
+            // rb.rotation += 500 * Time.deltaTime;
             RaycastHit2D hit = Physics2D.BoxCast(bc.bounds.center, bc.bounds.size, 0, Vector2.zero, 0, enemyMask);
             if(hit) {
                 hit.transform.GetComponent<enemy>().die(-hit.normal);
                 rb.velocity /= 10;
-                thrown = false;
+                
             }
         }
+        else
+            thrown = false;
+
     }
     public void attack()
     {
@@ -85,5 +89,27 @@ public class weapon : MonoBehaviour
     public void stopAttacking()
     {
         attacking = false;
+    }
+
+    public void pickingUp(movement player)
+    {
+        player.currentWeapon = transform;
+        transform.parent = player.transform;
+        anim.enabled = true;
+        transform.GetComponent<weapon>().player = player.transform;
+        gameObject.layer = 0;
+        player.haveWeapon = true;
+        transform.GetComponent<weapon>().pickedUp = player.haveWeapon;
+    }
+
+    public void Throwing(movement player)
+    {
+        player.haveWeapon = false;
+        rb.AddForce(player.transform.up * player.throwPower, ForceMode2D.Impulse);
+        transform.GetComponent<weapon>().thrown = true;
+        transform.GetComponent<weapon>().pickedUp = player.haveWeapon;
+        transform.parent = null;
+        gameObject.layer = 6;
+        player.currentWeapon = null;
     }
 }

@@ -29,8 +29,6 @@ public class shoppingCart : MonoBehaviour
     {
         if(used) {
             moveSpeed += transform.up * speed * Time.deltaTime;
-            transform.position += moveSpeed;
-            print("move speed: " + moveSpeed);
         }
     }
 }
