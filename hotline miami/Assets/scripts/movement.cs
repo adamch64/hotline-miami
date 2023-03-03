@@ -79,6 +79,7 @@ public class movement : MonoBehaviour
             {
                 currentWeapon = pickUp.transform;
                 currentWeapon.parent = transform;
+                currentWeapon.GetComponent<Animator>().enabled = true;
                 currentWeapon.GetComponent<weapon>().player = transform;
                 currentWeapon.gameObject.layer = 0;
                 haveWeapon = true;
