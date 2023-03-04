@@ -11,6 +11,8 @@ public class movement : MonoBehaviour
     [Header("movement")]
     private Rigidbody2D rb;
     [SerializeField] private float speed;
+    private bool canMove;
+    private Vector2 droppedPalettePosition;
     float x,y;
     Vector2 mouseWorldPosition;
     [Header("weapons")]
@@ -18,6 +20,7 @@ public class movement : MonoBehaviour
     public bool haveWeapon;
     [SerializeField] private LayerMask weaponMask;
     [SerializeField] private LayerMask shoppingCartMask;
+    [SerializeField] private LayerMask movableShelfMask;
     [SerializeField] private float range;
     [SerializeField] private Transform weaponPositionLeft, weaponPositionRight;
     private Transform currentWeaponPosition;
@@ -26,6 +29,7 @@ public class movement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        canMove = true;
         rb = GetComponent<Rigidbody2D>();
         currentWeaponPosition = weaponPositionRight;
     }
@@ -35,12 +39,17 @@ public class movement : MonoBehaviour
     {
         MyInput();
         MousePosition();
-        RotatePlayer();
-        MovePlayer();
+        if(canMove)
+        {
+            RotatePlayer();
+            MovePlayer();
+        }
         holdWeapon();
         if(haveWeapon)
             attacking();
         useItem();
+        DropPalette();
+        movePosition(droppedPalettePosition);
     }
 
     void MyInput() 
@@ -110,6 +119,34 @@ public class movement : MonoBehaviour
                 hit.transform.GetComponent<shoppingCart>().used = true;
                 hit.transform.gameObject.layer = 0;
             }
+        }
+    }
+
+    void DropPalette()
+    {
+        if(!Input.GetKeyDown(useButton))
+            return;
+        RaycastHit2D hit = Physics2D.BoxCast(transform.position, new Vector2(3,3), 0, Vector2.zero, 0, movableShelfMask);
+        if(!hit)
+            return;
+        hit.transform.GetComponent<droppingShelf>().Drop(transform);
+    }
+
+    public void TriggerMoving(Vector2 position)
+    {
+        canMove = false;
+        droppedPalettePosition = position;
+    }
+
+    void movePosition(Vector2 position)
+    {
+        if(canMove)
+            return;
+        float distance = Vector2.Distance(transform.position, position);
+        transform.position = Vector2.MoveTowards(transform.position, position, speed * Time.deltaTime);
+        if(distance < 0.02f)
+        {
+            canMove = true;
         }
     }
 }
