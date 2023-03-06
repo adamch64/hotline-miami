@@ -37,7 +37,7 @@ public class weapon : MonoBehaviour
         anim.SetBool("picked up", pickedUp);
         if(attacking)
         {
-            RaycastHit2D hit =  Physics2D.BoxCast(bc.bounds.center, bc.bounds.size, 0, Vector2.zero, 0, enemyMask);
+            RaycastHit2D hit =  Physics2D.BoxCast(bc.bounds.center, bc.bounds.size, 0, transform.up, 1.5f, enemyMask);
             if(hit) 
                 hit.transform.GetComponent<enemy>().die(-hit.normal);
         }
