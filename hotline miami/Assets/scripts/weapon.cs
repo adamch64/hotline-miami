@@ -6,6 +6,7 @@ public class weapon : MonoBehaviour
 {
     public enum weapon_type {
         bat,
+        apple,
         rifle
     };
     public weapon_type weaponType;
@@ -22,6 +23,7 @@ public class weapon : MonoBehaviour
     private int state = -1;
     public bool pickedUp;
     public bool attacking = false;
+    public movement currentUser;
 
     void Start() 
     {
@@ -67,8 +69,8 @@ public class weapon : MonoBehaviour
             anim.SetTrigger("attack");
             anim.SetInteger("state", state);
         }
-        else if(weaponType == weapon_type.rifle) {
-
+        else if(weaponType == weapon_type.apple) {
+            Throwing(currentUser);
         }
     }
 
@@ -82,25 +84,28 @@ public class weapon : MonoBehaviour
         attacking = false;
     }
 
-    public void pickingUp(movement player)
+    public void pickingUp(movement _player)
     {
-        player.currentWeapon = transform;
-        transform.parent = player.transform;
+        currentUser = _player;
+        _player.currentWeapon = transform;
+        transform.parent = _player.transform;
         anim.enabled = true;
-        transform.GetComponent<weapon>().player = player.transform;
+        thrown = false;
+        player = _player.transform;
         gameObject.layer = 0;
-        player.haveWeapon = true;
-        transform.GetComponent<weapon>().pickedUp = player.haveWeapon;
+        _player.haveWeapon = true;
+        transform.GetComponent<weapon>().pickedUp = _player.haveWeapon;
     }
 
-    public void Throwing(movement player)
+    public void Throwing(movement _player)
     {
-        player.haveWeapon = false;
-        rb.AddForce(player.transform.up * player.throwPower, ForceMode2D.Impulse);
-        transform.GetComponent<weapon>().thrown = true;
-        transform.GetComponent<weapon>().pickedUp = player.haveWeapon;
+        currentUser = null;
+        _player.haveWeapon = false;
+        rb.AddForce(_player.transform.up * _player.throwPower, ForceMode2D.Impulse);
+        thrown = true;
+        pickedUp = _player.haveWeapon;
         transform.parent = null;
         gameObject.layer = 6;
-        player.currentWeapon = null;
+        _player.currentWeapon = null;
     }
 }
