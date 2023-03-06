@@ -44,6 +44,10 @@ public class movement : MonoBehaviour
             RotatePlayer();
             MovePlayer();
         }
+        else
+        {
+            StunnedPlayer();
+        }
         holdWeapon();
         if(haveWeapon)
             attacking();
@@ -68,6 +72,10 @@ public class movement : MonoBehaviour
     {
         Vector2 moveVector = new Vector2(x, y).normalized * speed;
         rb.velocity = moveVector;
+    }
+    void StunnedPlayer()
+    {
+        rb.velocity = Vector2.zero;
     }
 
     void MousePosition()
@@ -136,17 +144,21 @@ public class movement : MonoBehaviour
     {
         canMove = false;
         droppedPalettePosition = position;
+        transform.GetComponent<Collider2D>().enabled = false;
     }
 
     void movePosition(Vector2 position)
     {
         if(canMove)
+        {
             return;
+        }
         float distance = Vector2.Distance(transform.position, position);
-        transform.position = Vector2.MoveTowards(transform.position, position, speed * Time.deltaTime);
+        transform.position = Vector2.MoveTowards(transform.position, position, (speed/2) * Time.deltaTime);
         if(distance < 0.02f)
         {
             canMove = true;
+            transform.GetComponent<Collider2D>().enabled = true;
         }
     }
 }

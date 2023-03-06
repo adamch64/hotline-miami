@@ -6,6 +6,7 @@ public class droppingShelf : MonoBehaviour
 {
     private Animator anim;
     private Vector2 position;
+    private float distance = 2;
     void Start() 
     {
         anim = GetComponent<Animator>();
@@ -15,11 +16,11 @@ public class droppingShelf : MonoBehaviour
         anim.SetTrigger("dropped");
         if(player.position.x <= transform.position.x)
         {
-            position = new Vector2(transform.position.x - 2, player.position.y);
+            position = new Vector2(transform.position.x - distance, player.position.y);
         }
         else
         {
-            position = new Vector2(transform.position.x + 2, player.position.y);
+            position = new Vector2(transform.position.x + distance, player.position.y);
         }
         player.GetComponent<movement>().TriggerMoving(position);
     }
