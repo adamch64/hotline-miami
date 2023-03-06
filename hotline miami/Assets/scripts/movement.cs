@@ -13,6 +13,7 @@ public class movement : MonoBehaviour
     [SerializeField] private float speed;
     private bool canMove;
     private Vector2 droppedPalettePosition;
+    [SerializeField] private Vector2 droppedPaletteRange;
     float x,y;
     Vector2 mouseWorldPosition;
     [Header("weapons")]
@@ -134,7 +135,7 @@ public class movement : MonoBehaviour
     {
         if(!Input.GetKeyDown(useButton))
             return;
-        RaycastHit2D hit = Physics2D.BoxCast(transform.position, new Vector2(3,3), 0, Vector2.zero, 0, movableShelfMask);
+        RaycastHit2D hit = Physics2D.BoxCast(transform.position, droppedPaletteRange, 0, Vector2.zero, 0, movableShelfMask);
         if(!hit)
             return;
         hit.transform.GetComponent<droppingShelf>().Drop(transform);

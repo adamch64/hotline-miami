@@ -45,12 +45,10 @@ public class weapon : MonoBehaviour
             return;
         anim.enabled = false;
         if(rb.velocity.magnitude > 0.5f) {
-            // rb.rotation += 500 * Time.deltaTime;
             RaycastHit2D hit = Physics2D.BoxCast(bc.bounds.center, bc.bounds.size, 0, Vector2.zero, 0, enemyMask);
             if(hit) {
                 hit.transform.GetComponent<enemy>().die(-hit.normal);
                 rb.velocity /= 10;
-                
             }
         }
         else
@@ -68,13 +66,6 @@ public class weapon : MonoBehaviour
                 state = 0;
             anim.SetTrigger("attack");
             anim.SetInteger("state", state);
-            // RaycastHit2D hit =  Physics2D.CircleCast(transform.position, radius, Vector2.zero, 0, enemyMask);
-            // if(hit) 
-            //     hit.transform.GetComponent<enemy>().die(-hit.normal);
-            // for (int i = 0; i < hit.Length; i++)
-            // {
-            //     hit[i].transform.GetComponent<enemy>().die(-hit[i].normal);
-            // }
         }
         else if(weaponType == weapon_type.rifle) {
 
