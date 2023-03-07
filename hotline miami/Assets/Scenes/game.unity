@@ -3706,18 +3706,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponType: 1
-  anim: {fileID: 0}
   player: {fileID: 0}
+  currentUser: {fileID: 0}
   thrown: 0
   enemyMask:
     serializedVersion: 2
     m_Bits: 128
   radius: 0.5
   distance: 0
-  maxCooldown: 0
+  maxCooldown: 0.25
   pickedUp: 0
   attacking: 0
-  currentUser: {fileID: 0}
 --- !u!61 &880753413
 BoxCollider2D:
   m_ObjectHideFlags: 0

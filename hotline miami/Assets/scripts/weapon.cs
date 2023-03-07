@@ -10,10 +10,11 @@ public class weapon : MonoBehaviour
         rifle
     };
     public weapon_type weaponType;
-    public Animator anim;
+    private Animator anim;
     private Rigidbody2D rb;
     private BoxCollider2D bc;
     public Transform player;
+    public movement currentUser;
     public bool thrown;
     [SerializeField] private LayerMask enemyMask;
     [SerializeField] private float radius;
@@ -23,7 +24,7 @@ public class weapon : MonoBehaviour
     private int state = -1;
     public bool pickedUp;
     public bool attacking = false;
-    public movement currentUser;
+    
 
     void Start() 
     {
@@ -58,11 +59,11 @@ public class weapon : MonoBehaviour
 
     }
     public void attack()
-    {
-        if(weaponType == weapon_type.bat) {
-            if(cooldown > 0)
+    {   
+        if(cooldown > 0)
                 return;
-            cooldown = maxCooldown;
+        if(weaponType == weapon_type.bat) {
+            
             state++;
             if(state > 1)
                 state = 0;
@@ -72,6 +73,7 @@ public class weapon : MonoBehaviour
         else if(weaponType == weapon_type.apple) {
             Throwing(currentUser);
         }
+        cooldown = maxCooldown;
     }
 
     public void startAttacking()
