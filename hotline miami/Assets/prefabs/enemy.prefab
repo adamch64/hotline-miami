@@ -111,7 +111,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.9, y: 0.9}
   m_EdgeRadius: 0
 --- !u!114 &2126577388190189264
 MonoBehaviour:
@@ -127,6 +127,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deadBodyPrefab: {fileID: 5751389051840848728, guid: 211dd18df01b62d408d3ac3b9f2e1b9c, type: 3}
   dyingForce: 10
+  target: {fileID: 0}
+  playerMask:
+    serializedVersion: 2
+    m_Bits: 1024
+  enemyMask:
+    serializedVersion: 2
+    m_Bits: 128
+  detectionSpeed: 0.5
 --- !u!195 &3635539053236546627
 NavMeshAgent:
   m_ObjectHideFlags: 0

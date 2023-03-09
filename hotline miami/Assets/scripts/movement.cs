@@ -16,6 +16,8 @@ public class movement : MonoBehaviour
     private Vector2 droppedPalettePosition;
     [SerializeField] private Vector2 droppedPaletteRange;
     float x,y;
+    float lerpedX, lerpedY;
+    public Vector2 inputVector;
     Vector2 mouseWorldPosition;
     [Header("weapons")]
     public Transform currentWeapon;
@@ -70,6 +72,9 @@ public class movement : MonoBehaviour
     {
         x = Input.GetAxisRaw("Horizontal");
         y = Input.GetAxisRaw("Vertical");
+        lerpedX = Mathf.Lerp(lerpedX, x, 4 * Time.deltaTime);
+        lerpedY = Mathf.Lerp(lerpedY, y, 4 * Time.deltaTime);
+        inputVector = new Vector2(lerpedX, lerpedY);
     }
 
     void RotatePlayer()
