@@ -26,6 +26,7 @@ public class weapon : MonoBehaviour
     public bool attacking = false;
     public bool InRightHand = true;
     public bool twoWeapons = false;
+    [SerializeField] private float detectionDistance;
 
 
     void Start() 
@@ -72,6 +73,7 @@ public class weapon : MonoBehaviour
         }
         else
             thrown = false;
+            warnEnemies();
 
     }
     public void attack()
@@ -155,5 +157,17 @@ public class weapon : MonoBehaviour
         transform.parent = null;
         gameObject.layer = 6;
         _player.currentWeapon = null;
+    }
+
+    public void warnEnemies()
+    {
+        RaycastHit2D[] hit = Physics2D.CircleCastAll(transform.position, detectionDistance, Vector2.zero, 0, enemyMask);
+        for (int i = 0; i < hit.Length; i++)
+        {
+            if(hit[i])
+            {
+                hit[i].transform.GetComponent<enemy>().warn(transform.position);
+            }
+        }
     }
 }

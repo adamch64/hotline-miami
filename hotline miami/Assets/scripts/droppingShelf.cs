@@ -14,6 +14,8 @@ public class droppingShelf : MonoBehaviour
     private BoxCollider2D bc;
     [SerializeField] private LayerMask enemyMask;
     bool canKill;
+
+    [SerializeField] private float detectionDistance;
     
     void Awake()
     {
@@ -63,5 +65,17 @@ public class droppingShelf : MonoBehaviour
         RaycastHit2D hit = Physics2D.BoxCast(bc.bounds.center, bc.bounds.size, 0, Vector2.zero, 0, enemyMask);
         if(hit)
             hit.transform.GetComponent<enemy>().die(-hit.normal);
+    }
+
+    public void warnEnemies()
+    {
+        RaycastHit2D[] hit = Physics2D.CircleCastAll(transform.position, detectionDistance, Vector2.zero, 0, enemyMask);
+        for (int i = 0; i < hit.Length; i++)
+        {
+            if(hit[i])
+            {
+                hit[i].transform.GetComponent<enemy>().warn(transform.position);
+            }
+        }
     }
 }

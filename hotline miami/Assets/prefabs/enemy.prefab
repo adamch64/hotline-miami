@@ -97,7 +97,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -125,6 +125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb975199ed868f141b3d69e1bb444f0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentState: 0
   deadBodyPrefab: {fileID: 5751389051840848728, guid: 211dd18df01b62d408d3ac3b9f2e1b9c, type: 3}
   dyingForce: 10
   target: {fileID: 0}
@@ -135,6 +136,14 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   detectionSpeed: 0.5
+  checkpoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  maxWatchingTime: 4
+  detectionDistance: 8
 --- !u!195 &3635539053236546627
 NavMeshAgent:
   m_ObjectHideFlags: 0
