@@ -6,7 +6,8 @@ public class movement : MonoBehaviour
 {
     [Header("keybinds")]
     [SerializeField] private KeyCode pickupButton = KeyCode.Space;
-    [SerializeField] private KeyCode attackButton = KeyCode.Mouse0;
+    [SerializeField] private KeyCode leftAttackButton = KeyCode.Mouse0;
+    [SerializeField] private KeyCode rightAttackButton = KeyCode.Mouse1;
     [SerializeField] private KeyCode useButton = KeyCode.E;
     [Header("movement")]
     private Rigidbody2D rb;
@@ -24,15 +25,16 @@ public class movement : MonoBehaviour
     [SerializeField] private LayerMask movableShelfMask;
     [SerializeField] private float range;
     [SerializeField] private Transform weaponPositionLeft, weaponPositionRight;
-    private Transform currentWeaponPosition;
+    public Transform leftWeapon, rightWeapon;
     public float throwPower;
+    public bool twoWeapons;
+    public bool isNigger;
 
     // Start is called before the first frame update
     void Start()
     {
         canMove = true;
         rb = GetComponent<Rigidbody2D>();
-        currentWeaponPosition = weaponPositionRight;
     }
 
     // Update is called once per frame
@@ -40,6 +42,14 @@ public class movement : MonoBehaviour
     {
         MyInput();
         MousePosition();
+        if(leftWeapon != null && rightWeapon != null)
+        {
+            twoWeapons = true;
+        }
+        else
+        {
+            twoWeapons = false;
+        }
         if(canMove)
         {
             RotatePlayer();
@@ -49,9 +59,8 @@ public class movement : MonoBehaviour
         {
             StunnedPlayer();
         }
-        holdWeapon();
-        if(haveWeapon)
-            attacking();
+        PickingUpWeapon();
+        attacking();
         useItem();
         DropPalette();
         movePosition(droppedPalettePosition);
@@ -86,37 +95,68 @@ public class movement : MonoBehaviour
         mouseWorldPosition = Camera.main.ScreenToWorldPoint(mousePos);
     }
 
-    void holdWeapon()
+    public void holdWeapon(Transform _weapon)
     {
-        if(!haveWeapon)
+        _weapon.TryGetComponent<weapon>(out weapon weapon);
+        if(weapon.InRightHand)
         {
-            RaycastHit2D pickUp = Physics2D.CircleCast(transform.position, range, Vector2.zero, 0, weaponMask);
-            if(!Input.GetKeyDown(pickupButton))
-                return;
-            if(pickUp)
-            {
-                pickUp.transform.GetComponent<weapon>().pickingUp(transform.GetComponent<movement>());
-            }
+            weapon.twoWeapons = twoWeapons;
+            _weapon.position = weaponPositionRight.position;
         }
-        else 
-        {    
-            if(!Input.GetKeyDown(pickupButton))
-            {
-                currentWeapon.position = currentWeaponPosition.position;
-                currentWeapon.rotation = transform.rotation;
-                return;
-            }
-            else
-            {
-                currentWeapon.GetComponent<weapon>().Throwing(transform.GetComponent<movement>());
-            }
+        else
+        {
+            weapon.twoWeapons = twoWeapons;
+            _weapon.position = weaponPositionLeft.position;
         }
     }
 
+    void PickingUpWeapon()
+    {
+        RaycastHit2D pickUp = Physics2D.CircleCast(transform.position, range, Vector2.zero, 0, weaponMask);
+        if(!Input.GetKeyDown(pickupButton))
+            return;
+        if(pickUp)
+        {
+            pickUp.transform.GetComponent<weapon>().pickingUp(transform.GetComponent<movement>());
+        }
+    }
+
+    // void holdWeapon()
+    // {
+    //     if(!haveWeapon)
+    //     {
+    //         RaycastHit2D pickUp = Physics2D.CircleCast(transform.position, range, Vector2.zero, 0, weaponMask);
+    //         if(!Input.GetKeyDown(pickupButton))
+    //             return;
+    //         if(pickUp)
+    //         {
+    //             pickUp.transform.GetComponent<weapon>().pickingUp(transform.GetComponent<movement>());
+    //         }
+    //     }
+    //     else 
+    //     {    
+    //         if(!Input.GetKeyDown(pickupButton))
+    //         {
+    //             currentWeapon.position = weaponPositionRight.position;
+    //             currentWeapon.rotation = transform.rotation;
+    //             return;
+    //         }
+    //         else
+    //         {
+    //             currentWeapon.GetComponent<weapon>().Throwing(transform.GetComponent<movement>());
+    //         }
+    //     }
+    // }
+
     void attacking()
     {
-        if(Input.GetKeyDown(attackButton)) {
-            currentWeapon.GetComponent<weapon>().attack();
+        if(Input.GetKeyDown(leftAttackButton)) {
+            if(leftWeapon != null)
+                leftWeapon.GetComponent<weapon>().attack();
+        }
+        if(Input.GetKeyDown(rightAttackButton)) {
+            if(rightWeapon != null)
+                rightWeapon.GetComponent<weapon>().attack();
         }
     }
 

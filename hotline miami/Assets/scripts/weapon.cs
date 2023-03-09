@@ -19,12 +19,14 @@ public class weapon : MonoBehaviour
     [SerializeField] private LayerMask enemyMask;
     [SerializeField] private float radius;
     [SerializeField] private float distance;
-    [SerializeField] private float maxCooldown;
+    [SerializeField] private float maxCooldown, twoWeaponCooldown;
     private float cooldown;
     private int state = -1;
     public bool pickedUp;
     public bool attacking = false;
-    
+    public bool InRightHand = true;
+    public bool twoWeapons = false;
+
 
     void Start() 
     {
@@ -35,6 +37,20 @@ public class weapon : MonoBehaviour
 
     void Update()
     {
+        if(currentUser != null)
+        {
+            currentUser.GetComponent<movement>().holdWeapon(transform);
+            anim.SetBool("two weapons", twoWeapons);
+            anim.SetBool("right hand", InRightHand);
+            if(weaponType == weapon_type.bat && InRightHand && twoWeapons)
+            {
+                Transform z = currentUser.leftWeapon;
+                InRightHand = false;
+                currentUser.leftWeapon = currentUser.rightWeapon;
+                currentUser.rightWeapon = z;
+                z.GetComponent<weapon>().InRightHand = true;
+            }
+        }
         if(cooldown > 0)
             cooldown -= Time.deltaTime;
         anim.SetBool("picked up", pickedUp);
@@ -63,7 +79,6 @@ public class weapon : MonoBehaviour
         if(cooldown > 0)
                 return;
         if(weaponType == weapon_type.bat) {
-            
             state++;
             if(state > 1)
                 state = 0;
@@ -73,7 +88,10 @@ public class weapon : MonoBehaviour
         else if(weaponType == weapon_type.apple) {
             Throwing(currentUser);
         }
-        cooldown = maxCooldown;
+        if(twoWeapons)
+            cooldown = twoWeaponCooldown;
+        else
+            cooldown = maxCooldown;
     }
 
     public void startAttacking()
@@ -88,6 +106,20 @@ public class weapon : MonoBehaviour
 
     public void pickingUp(movement _player)
     {
+        if(_player.rightWeapon == null)
+        {
+            InRightHand = true;
+            _player.rightWeapon = transform;
+        }
+        else if(_player.leftWeapon == null)
+        {
+            InRightHand = false;
+            _player.leftWeapon = transform;
+        }
+        else
+        {
+            return;
+        }
         currentUser = _player;
         _player.currentWeapon = transform;
         transform.parent = _player.transform;
@@ -101,11 +133,25 @@ public class weapon : MonoBehaviour
 
     public void Throwing(movement _player)
     {
+        if(InRightHand)
+        {
+            _player.rightWeapon = null;
+            if(_player.leftWeapon != null)
+            {
+                _player.rightWeapon = _player.leftWeapon;
+                _player.rightWeapon.GetComponent<weapon>().InRightHand = true;
+                _player.leftWeapon = null;
+            }
+        }
+        else
+        {
+            _player.leftWeapon = null;
+        }
+        _player.twoWeapons = false;
         currentUser = null;
-        _player.haveWeapon = false;
         rb.AddForce(_player.transform.up * _player.throwPower, ForceMode2D.Impulse);
         thrown = true;
-        pickedUp = _player.haveWeapon;
+        pickedUp = false;
         transform.parent = null;
         gameObject.layer = 6;
         _player.currentWeapon = null;

@@ -61,6 +61,7 @@ public class droppingShelf : MonoBehaviour
     void KillEnemies()
     {
         RaycastHit2D hit = Physics2D.BoxCast(bc.bounds.center, bc.bounds.size, 0, Vector2.zero, 0, enemyMask);
-        hit.transform.GetComponent<enemy>().die(-hit.normal);
+        if(hit)
+            hit.transform.GetComponent<enemy>().die(-hit.normal);
     }
 }
