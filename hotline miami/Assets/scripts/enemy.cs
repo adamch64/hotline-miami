@@ -113,6 +113,7 @@ public class enemy : MonoBehaviour
 
     public void die(Vector2 direction)
     {
+        target.transform.GetComponent<movement>().AddScore();
         Rigidbody2D deadBody = Instantiate(deadBodyPrefab, transform.position, Quaternion.identity).GetComponent<Rigidbody2D>();
         deadBody.AddForce(direction * dyingForce, ForceMode2D.Impulse);
         warnEnemies();

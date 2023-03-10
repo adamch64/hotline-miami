@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class movement : MonoBehaviour
 {
@@ -31,6 +32,12 @@ public class movement : MonoBehaviour
     public float throwPower;
     public bool twoWeapons;
     public bool isNigger;
+    [Header("score")]
+    private float score;
+    private float scoreMultipier;
+    private float scoreMultipierCooldown;
+    [SerializeField] private float MaxScoreMultipierCooldown;
+    [SerializeField] private Text scoreText;
 
     // Start is called before the first frame update
     void Start()
@@ -44,6 +51,8 @@ public class movement : MonoBehaviour
     {
         MyInput();
         MousePosition();
+        handleScore();
+        printScore();
         if(leftWeapon != null && rightWeapon != null)
         {
             twoWeapons = true;
@@ -126,33 +135,6 @@ public class movement : MonoBehaviour
         }
     }
 
-    // void holdWeapon()
-    // {
-    //     if(!haveWeapon)
-    //     {
-    //         RaycastHit2D pickUp = Physics2D.CircleCast(transform.position, range, Vector2.zero, 0, weaponMask);
-    //         if(!Input.GetKeyDown(pickupButton))
-    //             return;
-    //         if(pickUp)
-    //         {
-    //             pickUp.transform.GetComponent<weapon>().pickingUp(transform.GetComponent<movement>());
-    //         }
-    //     }
-    //     else 
-    //     {    
-    //         if(!Input.GetKeyDown(pickupButton))
-    //         {
-    //             currentWeapon.position = weaponPositionRight.position;
-    //             currentWeapon.rotation = transform.rotation;
-    //             return;
-    //         }
-    //         else
-    //         {
-    //             currentWeapon.GetComponent<weapon>().Throwing(transform.GetComponent<movement>());
-    //         }
-    //     }
-    // }
-
     void attacking()
     {
         if(Input.GetKeyDown(leftAttackButton)) {
@@ -206,5 +188,29 @@ public class movement : MonoBehaviour
             canMove = true;
             transform.GetComponent<Collider2D>().enabled = true;
         }
+    }
+
+    void handleScore()
+    {
+        if(scoreMultipierCooldown <= 0)
+        {
+            scoreMultipier = 1;
+        }
+        else
+        {
+            scoreMultipierCooldown -= Time.deltaTime;
+        }
+    }
+
+    void printScore()
+    {
+        scoreText.text = score.ToString() + "   " + scoreMultipier.ToString("F2") + "x";
+    }
+
+    public void AddScore()
+    {
+        scoreMultipierCooldown = MaxScoreMultipierCooldown;
+        scoreMultipier += 0.25f;
+        score += 100 * scoreMultipier;
     }
 }
