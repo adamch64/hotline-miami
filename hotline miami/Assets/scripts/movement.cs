@@ -209,8 +209,8 @@ public class movement : MonoBehaviour
 
     public void AddScore()
     {
+        score += 100 * scoreMultipier;
         scoreMultipierCooldown = MaxScoreMultipierCooldown;
         scoreMultipier += 0.25f;
-        score += 100 * scoreMultipier;
     }
 }
