@@ -89,8 +89,11 @@ public class movement : MonoBehaviour
 
     void RotatePlayer()
     {
-        Vector2 direction = (mouseWorldPosition - (Vector2) transform.position).normalized;
-        transform.up = direction;
+        if(Time.timeScale != 0)
+        {
+            Vector2 direction = (mouseWorldPosition - (Vector2) transform.position).normalized;
+            transform.up = direction;
+        }
     }
 
     void MovePlayer()

@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 515100221}
   - component: {fileID: 515100223}
   - component: {fileID: 515100222}
+  - component: {fileID: 515100224}
   m_Layer: 5
   m_Name: Text (Legacy)
   m_TagString: Untagged
@@ -203,6 +204,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 515100220}
   m_CullTransparentMesh: 1
+--- !u!114 &515100224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 515100220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16e7b23ae77449a4295ec1c870ab4019, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: {fileID: 515100222}
 --- !u!1 &907459849
 GameObject:
   m_ObjectHideFlags: 0
@@ -214,6 +228,7 @@ GameObject:
   - component: {fileID: 907459850}
   - component: {fileID: 907459852}
   - component: {fileID: 907459851}
+  - component: {fileID: 907459853}
   m_Layer: 5
   m_Name: exit
   m_TagString: Untagged
@@ -306,6 +321,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 907459849}
   m_CullTransparentMesh: 1
+--- !u!114 &907459853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 907459849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 515100224}
+          m_TargetAssemblyTypeName: menuController, Assembly-CSharp
+          m_MethodName: mouseEnter
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 515100224}
+          m_TargetAssemblyTypeName: menuController, Assembly-CSharp
+          m_MethodName: mouseExit
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1054325982
 GameObject:
   m_ObjectHideFlags: 0
@@ -317,6 +377,7 @@ GameObject:
   - component: {fileID: 1054325983}
   - component: {fileID: 1054325985}
   - component: {fileID: 1054325984}
+  - component: {fileID: 1054325986}
   m_Layer: 5
   m_Name: start
   m_TagString: Untagged
@@ -409,6 +470,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1054325982}
   m_CullTransparentMesh: 1
+--- !u!114 &1054325986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1054325982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1672580173}
+          m_TargetAssemblyTypeName: menuController, Assembly-CSharp
+          m_MethodName: mouseEnter
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1672580173}
+          m_TargetAssemblyTypeName: menuController, Assembly-CSharp
+          m_MethodName: mouseExit
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1444771967
 GameObject:
   m_ObjectHideFlags: 0
@@ -640,6 +746,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16e7b23ae77449a4295ec1c870ab4019, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  text: {fileID: 0}
 --- !u!1 &1599307015
 GameObject:
   m_ObjectHideFlags: 0
@@ -727,6 +834,7 @@ GameObject:
   - component: {fileID: 1672580170}
   - component: {fileID: 1672580172}
   - component: {fileID: 1672580171}
+  - component: {fileID: 1672580173}
   m_Layer: 5
   m_Name: Text (Legacy)
   m_TagString: Untagged
@@ -796,6 +904,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1672580169}
   m_CullTransparentMesh: 1
+--- !u!114 &1672580173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1672580169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16e7b23ae77449a4295ec1c870ab4019, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: {fileID: 1672580171}
 --- !u!1 &1949667202
 GameObject:
   m_ObjectHideFlags: 0

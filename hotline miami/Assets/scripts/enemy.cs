@@ -28,6 +28,7 @@ public class enemy : MonoBehaviour
     [SerializeField] private float detectionDistance;
     [SerializeField] private float attackRange;
     private bool attacking;
+    RaycastHit2D checkEnemy;
 
     void Awake() 
     {
@@ -49,20 +50,31 @@ public class enemy : MonoBehaviour
             }
             return;
         }
+
+        Vector2 dir = -(transform.position - target.position).normalized;
+        checkEnemy = Physics2D.Raycast(transform.position, dir, 10, ~enemyMask);
+        if(checkEnemy)
+        {
+            if(checkEnemy.transform.GetComponent<movement>())
+            {
+                if(currentState != states.chase)
+                {
+                    currentState = states.chase;
+                }
+            }
+        }
         
         if(currentState == states.patrol)
         {
             agent.speed = patrolSpeed;
-            Vector2 dir = -(transform.position - target.position).normalized;
-            RaycastHit2D checkEnemy = Physics2D.Raycast(transform.position, dir, 10, ~enemyMask);
-            if(checkEnemy)
-            {
-                if(checkEnemy.transform.GetComponent<movement>())
-                {
-                    currentState = states.chase;
-                    return;
-                }
-            }
+            // if(checkEnemy)
+            // {
+            //     if(checkEnemy.transform.GetComponent<movement>())
+            //     {
+            //         currentState = states.chase;
+            //         return;
+            //     }
+            // }
             float distance = Vector2.Distance(transform.position, checkpoints[currentCheckpoint].position);
             if(distance < 0.5f)
             {
@@ -77,16 +89,14 @@ public class enemy : MonoBehaviour
         else if(currentState == states.warned)
         {
             agent.speed = warnedSpeed;
-            Vector2 dir = -(transform.position - target.position).normalized;
-            RaycastHit2D checkEnemy = Physics2D.Raycast(transform.position, dir, 10, ~enemyMask);
-            if(checkEnemy)
-            {
-                if(checkEnemy.transform.GetComponent<movement>())
-                {
-                    currentState = states.chase;
-                    return;
-                }
-            }
+            // if(checkEnemy)
+            // {
+            //     if(checkEnemy.transform.GetComponent<movement>())
+            //     {
+            //         currentState = states.chase;
+            //         return;
+            //     }
+            // }
             float distance = Vector2.Distance(transform.position, warnedPosition);
             if(distance < 4)
             {
@@ -147,9 +157,12 @@ public class enemy : MonoBehaviour
         {
             currentState = states.suspicious;
             yield return new WaitForSeconds(2);
-            currentState = states.warned;
-            warnedPosition = position;
-            agent.SetDestination(warnedPosition);
+            if(currentState != states.chase)
+            {
+                currentState = states.warned;
+                warnedPosition = position;
+                agent.SetDestination(warnedPosition);
+            }
         }
     }
 
