@@ -87,20 +87,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickupButton: 32
-  attackButton: 323
+  leftAttackButton: 323
+  rightAttackButton: 324
   useButton: 101
   speed: 15
+  droppedPaletteRange: {x: 2, y: 6}
+  inputVector: {x: 0, y: 0}
   currentWeapon: {fileID: 0}
+  haveWeapon: 0
   weaponMask:
     serializedVersion: 2
     m_Bits: 64
   shoppingCartMask:
     serializedVersion: 2
     m_Bits: 256
+  movableShelfMask:
+    serializedVersion: 2
+    m_Bits: 2048
   range: 2
   weaponPositionLeft: {fileID: 2224016921518475657}
   weaponPositionRight: {fileID: 1858512887047613055}
+  leftWeapon: {fileID: 0}
+  rightWeapon: {fileID: 0}
   throwPower: 20
+  twoWeapons: 0
+  isNigger: 1
 --- !u!1 &1858512886811167831
 GameObject:
   m_ObjectHideFlags: 0

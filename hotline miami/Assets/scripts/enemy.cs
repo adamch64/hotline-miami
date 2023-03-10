@@ -7,6 +7,7 @@ public class enemy : MonoBehaviour
 {
     public enum states {
         patrol,
+        suspicious,
         warned,
         chase
     }
@@ -16,7 +17,7 @@ public class enemy : MonoBehaviour
     [SerializeField] private Transform target;
     [SerializeField] private LayerMask playerMask, enemyMask;
     private NavMeshAgent agent;
-    [SerializeField] private float detectionSpeed;
+    [SerializeField] private float patrolSpeed, warnedSpeed, chaseSpeed;
     private Vector2 warnedPosition;
 
     [SerializeField] private Transform[] checkpoints;
@@ -49,6 +50,7 @@ public class enemy : MonoBehaviour
         
         if(currentState == states.patrol)
         {
+            agent.speed = patrolSpeed;
             Vector2 dir = -(transform.position - target.position).normalized;
             RaycastHit2D checkEnemy = Physics2D.Raycast(transform.position, dir, 10, ~enemyMask);
             if(checkEnemy)
@@ -66,8 +68,13 @@ public class enemy : MonoBehaviour
                 agent.SetDestination(checkpoints[currentCheckpoint].position);
             }
         }
+        else if(currentState == states.suspicious)
+        {
+            agent.SetDestination(transform.position);
+        }
         else if(currentState == states.warned)
         {
+            agent.speed = warnedSpeed;
             Vector2 dir = -(transform.position - target.position).normalized;
             RaycastHit2D checkEnemy = Physics2D.Raycast(transform.position, dir, 10, ~enemyMask);
             if(checkEnemy)
@@ -99,6 +106,7 @@ public class enemy : MonoBehaviour
         }
         else if(currentState == states.chase)
         {
+            agent.speed = chaseSpeed;
             agent.SetDestination(target.position);
         }
     }
@@ -111,13 +119,16 @@ public class enemy : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public void warn(Vector2 position)
+    public IEnumerator warn(Vector2 position)
     {
-        if(currentState == states.chase)
-            return;
-        currentState = states.warned;
-        warnedPosition = position;
-        agent.SetDestination(warnedPosition);
+        if(currentState != states.chase)
+        {
+            currentState = states.suspicious;
+            yield return new WaitForSeconds(2);
+            currentState = states.warned;
+            warnedPosition = position;
+            agent.SetDestination(warnedPosition);
+        }
     }
 
     public void warnEnemies()
@@ -127,7 +138,7 @@ public class enemy : MonoBehaviour
         {
             if(hit[i])
             {
-                hit[i].transform.GetComponent<enemy>().warn(transform.position);
+                StartCoroutine(hit[i].transform.GetComponent<enemy>().warn(transform.position));
             }
         }
     }

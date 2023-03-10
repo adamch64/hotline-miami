@@ -810,6 +810,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2126577388190189264, guid: 2b36284fc97c83c4198e80151e843f25, type: 3}
+      propertyPath: detectionDistance
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2126577388190189264, guid: 2b36284fc97c83c4198e80151e843f25, type: 3}
       propertyPath: checkpoints.Array.data[0]
       value: 
       objectReference: {fileID: 504555177}
@@ -1838,6 +1842,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2126577388190189264, guid: 2b36284fc97c83c4198e80151e843f25, type: 3}
+      propertyPath: detectionDistance
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2126577388190189264, guid: 2b36284fc97c83c4198e80151e843f25, type: 3}
       propertyPath: checkpoints.Array.data[0]
       value: 
       objectReference: {fileID: 504555177}
@@ -2588,6 +2596,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2126577388190189264, guid: 2b36284fc97c83c4198e80151e843f25, type: 3}
+      propertyPath: detectionDistance
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 2126577388190189264, guid: 2b36284fc97c83c4198e80151e843f25, type: 3}
       propertyPath: checkpoints.Array.data[0]
       value: 
@@ -3477,6 +3489,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2126577388190189264, guid: 2b36284fc97c83c4198e80151e843f25, type: 3}
+      propertyPath: detectionDistance
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2126577388190189264, guid: 2b36284fc97c83c4198e80151e843f25, type: 3}
       propertyPath: checkpoints.Array.data[0]
       value: 
       objectReference: {fileID: 504555177}
@@ -3881,7 +3897,7 @@ MonoBehaviour:
   attacking: 0
   InRightHand: 1
   twoWeapons: 0
-  detectionDistance: 7
+  detectionDistance: 10
 --- !u!61 &880753413
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4566,6 +4582,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2126577388190189264, guid: 2b36284fc97c83c4198e80151e843f25, type: 3}
+      propertyPath: detectionDistance
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 2126577388190189264, guid: 2b36284fc97c83c4198e80151e843f25, type: 3}
       propertyPath: checkpoints.Array.data[0]
       value: 
@@ -5791,6 +5811,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2126577388190189264, guid: 2b36284fc97c83c4198e80151e843f25, type: 3}
+      propertyPath: detectionDistance
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2126577388190189264, guid: 2b36284fc97c83c4198e80151e843f25, type: 3}
       propertyPath: checkpoints.Array.data[0]
       value: 
       objectReference: {fileID: 504555177}
@@ -5908,6 +5932,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2126577388190189264, guid: 2b36284fc97c83c4198e80151e843f25, type: 3}
+      propertyPath: detectionDistance
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 2126577388190189264, guid: 2b36284fc97c83c4198e80151e843f25, type: 3}
       propertyPath: checkpoints.Array.data[0]
       value: 
@@ -6117,6 +6145,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2126577388190189264, guid: 2b36284fc97c83c4198e80151e843f25, type: 3}
+      propertyPath: detectionDistance
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 2126577388190189264, guid: 2b36284fc97c83c4198e80151e843f25, type: 3}
       propertyPath: checkpoints.Array.data[0]
       value: 
@@ -6454,6 +6486,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2126577388190189264, guid: 2b36284fc97c83c4198e80151e843f25, type: 3}
+      propertyPath: detectionDistance
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 2126577388190189264, guid: 2b36284fc97c83c4198e80151e843f25, type: 3}
       propertyPath: checkpoints.Array.data[0]
       value: 
@@ -7923,6 +7959,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2126577388190189264, guid: 2b36284fc97c83c4198e80151e843f25, type: 3}
+      propertyPath: detectionDistance
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2126577388190189264, guid: 2b36284fc97c83c4198e80151e843f25, type: 3}
       propertyPath: checkpoints.Array.data[0]
       value: 
       objectReference: {fileID: 504555177}
@@ -8108,22 +8148,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1858512886352042882, guid: 92ebd65307d23bb48aa6fea2256ec87c, type: 3}
-      propertyPath: isNigger
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1858512886352042882, guid: 92ebd65307d23bb48aa6fea2256ec87c, type: 3}
-      propertyPath: droppedPaletteRange.x
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1858512886352042882, guid: 92ebd65307d23bb48aa6fea2256ec87c, type: 3}
-      propertyPath: droppedPaletteRange.y
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 1858512886352042882, guid: 92ebd65307d23bb48aa6fea2256ec87c, type: 3}
-      propertyPath: movableShelfMask.m_Bits
-      value: 2048
-      objectReference: {fileID: 0}
     - target: {fileID: 1858512886352042883, guid: 92ebd65307d23bb48aa6fea2256ec87c, type: 3}
       propertyPath: m_Name
       value: player
@@ -8177,6 +8201,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2126577388190189264, guid: 2b36284fc97c83c4198e80151e843f25, type: 3}
+      propertyPath: detectionDistance
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 2126577388190189264, guid: 2b36284fc97c83c4198e80151e843f25, type: 3}
       propertyPath: checkpoints.Array.data[0]
       value: 

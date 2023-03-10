@@ -74,7 +74,7 @@ public class droppingShelf : MonoBehaviour
         {
             if(hit[i])
             {
-                hit[i].transform.GetComponent<enemy>().warn(transform.position);
+                StartCoroutine(hit[i].transform.GetComponent<enemy>().warn(transform.position));
             }
         }
     }

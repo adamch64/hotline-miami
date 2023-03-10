@@ -166,7 +166,7 @@ public class weapon : MonoBehaviour
         {
             if(hit[i])
             {
-                hit[i].transform.GetComponent<enemy>().warn(transform.position);
+                StartCoroutine(hit[i].transform.GetComponent<enemy>().warn(transform.position));
             }
         }
     }
