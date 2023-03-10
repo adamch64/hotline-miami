@@ -63,7 +63,6 @@ public class weapon : MonoBehaviour
         }
         if(!thrown)
             return;
-        anim.enabled = false;
         if(rb.velocity.magnitude > 0.5f) {
             RaycastHit2D hit = Physics2D.BoxCast(bc.bounds.center, bc.bounds.size, 0, Vector2.zero, 0, enemyMask);
             if(hit) {
@@ -135,6 +134,7 @@ public class weapon : MonoBehaviour
 
     public void Throwing(movement _player)
     {
+        anim.enabled = false;
         if(InRightHand)
         {
             _player.rightWeapon = null;

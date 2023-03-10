@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class movement : MonoBehaviour
 {
@@ -212,5 +213,10 @@ public class movement : MonoBehaviour
         score += 100 * scoreMultipier;
         scoreMultipierCooldown = MaxScoreMultipierCooldown;
         scoreMultipier += 0.25f;
+    }
+
+    public void die()
+    {
+        SceneManager.LoadScene("game");
     }
 }

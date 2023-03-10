@@ -146,6 +146,7 @@ MonoBehaviour:
   - {fileID: 0}
   maxWatchingTime: 4
   detectionDistance: 8
+  attackRange: 1
 --- !u!195 &3635539053236546627
 NavMeshAgent:
   m_ObjectHideFlags: 0

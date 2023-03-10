@@ -26,6 +26,8 @@ public class enemy : MonoBehaviour
     private float watchingTime;
     [SerializeField] private float maxWatchingTime;
     [SerializeField] private float detectionDistance;
+    [SerializeField] private float attackRange;
+    private bool attacking;
 
     void Awake() 
     {
@@ -108,7 +110,26 @@ public class enemy : MonoBehaviour
         {
             agent.speed = chaseSpeed;
             agent.SetDestination(target.position);
+            if(attacking)
+                return;
+            float distance = Vector2.Distance(transform.position, target.position);
+            if(distance < 1)
+            {
+                StartCoroutine(attack());
+            }
         }
+    }
+
+    IEnumerator attack()
+    {
+        attacking = true;
+        yield return new WaitForSeconds(0.2f);
+        RaycastHit2D hit = Physics2D.CircleCast(transform.position, attackRange, Vector2.zero, 0, playerMask);
+        if(hit)
+        {
+            hit.transform.GetComponent<movement>().die();
+        }
+        attacking = false;
     }
 
     public void die(Vector2 direction)
