@@ -141,13 +141,24 @@ public class movement : MonoBehaviour
 
     void attacking()
     {
-        if(Input.GetKeyDown(leftAttackButton)) {
-            if(leftWeapon != null)
-                leftWeapon.GetComponent<weapon>().attack();
+        if(twoWeapons)
+        {
+            if(Input.GetKeyDown(leftAttackButton)) {
+                if(leftWeapon != null)
+                    leftWeapon.GetComponent<weapon>().attack();
+            }
+            if(Input.GetKeyDown(rightAttackButton)) {
+                if(rightWeapon != null)
+                    rightWeapon.GetComponent<weapon>().attack();
+            }
         }
-        if(Input.GetKeyDown(rightAttackButton)) {
-            if(rightWeapon != null)
-                rightWeapon.GetComponent<weapon>().attack();
+        else
+        {
+            if(Input.GetKeyDown(leftAttackButton) || Input.GetKeyDown(rightAttackButton))
+            {
+                if(rightWeapon != null)
+                    rightWeapon.GetComponent<weapon>().attack();
+            }
         }
     }
 
