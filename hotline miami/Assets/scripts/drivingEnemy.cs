@@ -6,7 +6,7 @@ public class drivingEnemy : MonoBehaviour
 {
     [Header("declarations")]
     [SerializeField] private BoxCollider2D boxCollider;
-    [SerializeField] private CircleCollider2D enemyCollider;
+    [SerializeField] private BoxCollider2D enemyCollider;
     [SerializeField] private LayerMask playerMask;
     [Header("movement")]
     private float speed;
@@ -22,14 +22,28 @@ public class drivingEnemy : MonoBehaviour
     [Header("patrol")]
     [SerializeField] private float detectDistance;
     [SerializeField] private float minimumCheckpointDistance;
+    [Header("dying")]
+    public bool Alive;
 
     void Start() 
     {
         transform.position = checkpoint[currentCheckpoint].position;
+        enemyCollider.transform.GetComponent<enemy>().drivingEnemy = this;
     }
 
     void Update()
     {
+        if(!Alive)
+            return;
+        RaycastHit2D hittedPlayer = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.zero, 0, playerMask);
+        if(hittedPlayer)
+        {
+            movement player;
+            if(player = hittedPlayer.transform.GetComponent<movement>())
+            {
+                player.die();
+            }
+        }
         RaycastHit2D checkPlayer = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size + new Vector3(1.5f, 0, 0), 0, transform.up, detectDistance,playerMask);
         if(checkPlayer)
         {

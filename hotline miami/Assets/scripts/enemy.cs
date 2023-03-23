@@ -29,9 +29,13 @@ public class enemy : MonoBehaviour
     [SerializeField] private float attackRange;
     private bool attacking;
     RaycastHit2D checkEnemy;
+    [SerializeField] private bool isDriving;
+    public drivingEnemy drivingEnemy;
 
     void Awake() 
     {
+        if(isDriving)
+            return;
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
@@ -51,6 +55,11 @@ public class enemy : MonoBehaviour
             return;
         }
 
+        if(isDriving)
+        {
+            return;
+        }
+
         Vector2 dir = -(transform.position - target.position).normalized;
         checkEnemy = Physics2D.Raycast(transform.position, dir, 10, ~enemyMask);
         if(checkEnemy)
@@ -67,14 +76,6 @@ public class enemy : MonoBehaviour
         if(currentState == states.patrol)
         {
             agent.speed = patrolSpeed;
-            // if(checkEnemy)
-            // {
-            //     if(checkEnemy.transform.GetComponent<movement>())
-            //     {
-            //         currentState = states.chase;
-            //         return;
-            //     }
-            // }
             float distance = Vector2.Distance(transform.position, checkpoints[currentCheckpoint].position);
             if(distance < 0.5f)
             {
@@ -89,14 +90,6 @@ public class enemy : MonoBehaviour
         else if(currentState == states.warned)
         {
             agent.speed = warnedSpeed;
-            // if(checkEnemy)
-            // {
-            //     if(checkEnemy.transform.GetComponent<movement>())
-            //     {
-            //         currentState = states.chase;
-            //         return;
-            //     }
-            // }
             float distance = Vector2.Distance(transform.position, warnedPosition);
             if(distance < 4)
             {
@@ -144,6 +137,10 @@ public class enemy : MonoBehaviour
 
     public void die(Vector2 direction)
     {
+        if(isDriving)
+        {
+            drivingEnemy.Alive = false;
+        }
         target.transform.GetComponent<movement>().AddScore();
         Rigidbody2D deadBody = Instantiate(deadBodyPrefab, transform.position, Quaternion.identity).GetComponent<Rigidbody2D>();
         deadBody.AddForce(direction * dyingForce, ForceMode2D.Impulse);
@@ -153,6 +150,8 @@ public class enemy : MonoBehaviour
 
     public IEnumerator warn(Vector2 position)
     {
+        if(isDriving)
+            yield break;
         if(currentState != states.chase)
         {
             currentState = states.suspicious;
