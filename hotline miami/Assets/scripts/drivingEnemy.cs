@@ -35,7 +35,7 @@ public class drivingEnemy : MonoBehaviour
     {
         if(!Alive)
             return;
-        RaycastHit2D hittedPlayer = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.zero, 0, playerMask);
+        RaycastHit2D hittedPlayer = Physics2D.BoxCast(boxCollider.bounds.center + boxCollider.transform.up * 0.5f, boxCollider.bounds.size, 0, Vector2.zero, 0, playerMask);
         if(hittedPlayer)
         {
             movement player;
