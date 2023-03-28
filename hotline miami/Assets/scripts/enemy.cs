@@ -5,6 +5,12 @@ using UnityEngine.AI;
 
 public class enemy : MonoBehaviour
 {
+
+    public enum enemyType {
+        normal,
+        driving,
+        bodyguard
+    }
     public enum states {
         patrol,
         suspicious,
@@ -12,6 +18,7 @@ public class enemy : MonoBehaviour
         chase
     }
     public states currentState;
+    public enemyType _enemyType;
     [SerializeField] private GameObject deadBodyPrefab;
     [SerializeField] private float dyingForce;
     [SerializeField] private Transform target;
@@ -29,12 +36,17 @@ public class enemy : MonoBehaviour
     [SerializeField] private float attackRange;
     private bool attacking;
     RaycastHit2D checkEnemy;
-    [SerializeField] private bool isDriving;
     public drivingEnemy drivingEnemy;
-
+    [SerializeField] private GameObject bullet;
+    Vector2 dir;
+    public float bulletSpeed;
+    public bool stunned;
+    public bool hittedEnemy;
+    Transform bulletTransform;
+    public float AttackCooldownBodyguard, AttackCooldownNormal;
     void Awake() 
     {
-        if(isDriving)
+        if(_enemyType == enemyType.driving)
             return;
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
@@ -55,12 +67,28 @@ public class enemy : MonoBehaviour
             return;
         }
 
-        if(isDriving)
+        if(_enemyType == enemyType.driving)
         {
             return;
         }
-
-        Vector2 dir = -(transform.position - target.position).normalized;
+        if(stunned)
+        {
+            agent.SetDestination(transform.position);
+            if(bulletTransform != null)
+            {
+                float bulletDistance = Vector2.Distance(transform.position, bulletTransform.position);
+                RaycastHit2D stunPlayer = Physics2D.Raycast(transform.position, bulletTransform.position - transform.position, bulletDistance, playerMask);
+                if(stunPlayer)
+                {
+                    if(!hittedEnemy)
+                    {
+                        StartCoroutine(stunPlayer.transform.GetComponent<movement>().freeze(this)); 
+                    }
+                }
+            }
+            return;
+        }
+        dir = -(transform.position - target.position).normalized;
         checkEnemy = Physics2D.Raycast(transform.position, dir, 10, ~enemyMask);
         if(checkEnemy)
         {
@@ -78,7 +106,7 @@ public class enemy : MonoBehaviour
             agent.speed = patrolSpeed;
             float distance = Vector2.Distance(transform.position, checkpoints[currentCheckpoint].position);
             if(distance < 0.5f)
-            {
+            {   
                 currentCheckpoint++;
                 agent.SetDestination(checkpoints[currentCheckpoint].position);
             }
@@ -116,28 +144,54 @@ public class enemy : MonoBehaviour
             if(attacking)
                 return;
             float distance = Vector2.Distance(transform.position, target.position);
-            if(distance < 1)
+            if(_enemyType == enemyType.normal)
             {
-                StartCoroutine(attack());
+                if(distance < 1)
+                {
+                    StartCoroutine(attack(AttackCooldownNormal));
+                }
+            }
+            else if(_enemyType == enemyType.bodyguard)
+            {
+                if(distance < 5)
+                {
+                    StartCoroutine(attack(AttackCooldownBodyguard));
+                }
             }
         }
     }
 
-    IEnumerator attack()
+    IEnumerator attack(float cooldown)
     {
         attacking = true;
-        yield return new WaitForSeconds(0.2f);
-        RaycastHit2D hit = Physics2D.CircleCast(transform.position, attackRange, Vector2.zero, 0, playerMask);
-        if(hit)
+        if(_enemyType == enemyType.normal)
         {
-            hit.transform.GetComponent<movement>().die();
+            yield return new WaitForSeconds(cooldown);
+            RaycastHit2D hit = Physics2D.CircleCast(transform.position, attackRange, Vector2.zero, 0, playerMask);
+            if(hit)
+            {
+                hit.transform.GetComponent<movement>().die();
+            }
+        }
+        else if(_enemyType == enemyType.bodyguard)
+        {
+            stunned = true;
+            bulletTransform = Instantiate(bullet, transform.position, transform.rotation).transform;
+            Rigidbody2D bulletRb = bulletTransform.GetComponent<Rigidbody2D>();
+            bullet Bullet = bulletTransform.GetComponent<bullet>();
+            Bullet.Enemy = transform;
+            yield return new WaitForFixedUpdate();
+            bulletRb.AddForce(dir * bulletSpeed, ForceMode2D.Impulse);
+            yield return new WaitForSeconds(cooldown);
+            stunned = false;
+            hittedEnemy = false;
         }
         attacking = false;
     }
 
     public void die(Vector2 direction)
     {
-        if(isDriving)
+        if(_enemyType == enemyType.driving)
         {
             drivingEnemy.Alive = false;
         }
@@ -150,7 +204,7 @@ public class enemy : MonoBehaviour
 
     public IEnumerator warn(Vector2 position)
     {
-        if(isDriving)
+        if(_enemyType == enemyType.driving)
             yield break;
         if(currentState != states.chase)
         {

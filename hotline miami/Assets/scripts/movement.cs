@@ -15,12 +15,13 @@ public class movement : MonoBehaviour
     private Rigidbody2D rb;
     [SerializeField] private float speed;
     private bool canMove;
+    private bool freezed;
     private Vector2 droppedPalettePosition;
     [SerializeField] private Vector2 droppedPaletteRange;
     float x,y;
     float lerpedX, lerpedY;
     public Vector2 inputVector;
-    Vector2 mouseWorldPosition;
+    public Vector2 mouseWorldPosition;
     [Header("weapons")]
     public Transform currentWeapon;
     public bool haveWeapon;
@@ -64,17 +65,25 @@ public class movement : MonoBehaviour
         }
         if(canMove)
         {
-            RotatePlayer();
-            MovePlayer();
+            if(!freezed)
+            {
+                RotatePlayer();
+                MovePlayer();
+                PickingUpWeapon();
+                attacking();
+                useItem();
+                DropPalette();
+            }
+            else
+            {
+                FreezedPosition();
+            }
         }
         else
         {
             StunnedPlayer();
         }
-        PickingUpWeapon();
-        attacking();
-        useItem();
-        DropPalette();
+        
         movePosition(droppedPalettePosition);
     }
 
@@ -104,6 +113,7 @@ public class movement : MonoBehaviour
     void StunnedPlayer()
     {
         rb.velocity = Vector2.zero;
+        rb.angularVelocity = 0;
     }
 
     void MousePosition()
@@ -227,6 +237,20 @@ public class movement : MonoBehaviour
         score += 100 * scoreMultipier;
         scoreMultipierCooldown = MaxScoreMultipierCooldown;
         scoreMultipier += 0.25f;
+    }
+
+    public IEnumerator freeze(enemy enemy)
+    {
+        freezed = true;
+        enemy.hittedEnemy = true;
+        yield return new WaitForSeconds(1f);
+        freezed = false;
+    }
+
+    public void FreezedPosition()
+    {
+        rb.velocity = Vector2.zero;
+        rb.angularVelocity = 0;
     }
 
     public void die()
