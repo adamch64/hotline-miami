@@ -44,6 +44,7 @@ public class enemy : MonoBehaviour
     public bool hittedEnemy;
     Transform bulletTransform;
     public float AttackCooldownBodyguard, AttackCooldownNormal;
+    private bool canAttack;
     void Awake() 
     {
         if(_enemyType == enemyType.driving)
@@ -53,6 +54,7 @@ public class enemy : MonoBehaviour
         agent.updateUpAxis = false;
         currentState = states.patrol;
         agent.SetDestination(checkpoints[currentCheckpoint].position);
+        canAttack = true;
     }
     
     void Update()
@@ -144,19 +146,16 @@ public class enemy : MonoBehaviour
             if(attacking)
                 return;
             float distance = Vector2.Distance(transform.position, target.position);
-            if(_enemyType == enemyType.normal)
-            {
-                if(distance < 1)
-                {
-                    StartCoroutine(attack(AttackCooldownNormal));
-                }
-            }
-            else if(_enemyType == enemyType.bodyguard)
+            if(_enemyType == enemyType.bodyguard)
             {
                 if(distance < 5)
                 {
-                    StartCoroutine(attack(AttackCooldownBodyguard));
+                    StartCoroutine(shoot(AttackCooldownBodyguard));
                 }
+            }
+            if(distance < 1)
+            {
+                StartCoroutine(attack(AttackCooldownNormal));
             }
         }
     }
@@ -164,29 +163,43 @@ public class enemy : MonoBehaviour
     IEnumerator attack(float cooldown)
     {
         attacking = true;
-        if(_enemyType == enemyType.normal)
+        yield return new WaitForSeconds(cooldown);
+        RaycastHit2D hit = Physics2D.CircleCast(transform.position, attackRange, Vector2.zero, 0, playerMask);
+        if(hit)
         {
-            yield return new WaitForSeconds(cooldown);
-            RaycastHit2D hit = Physics2D.CircleCast(transform.position, attackRange, Vector2.zero, 0, playerMask);
-            if(hit)
-            {
-                hit.transform.GetComponent<movement>().die();
-            }
-        }
-        else if(_enemyType == enemyType.bodyguard)
-        {
-            stunned = true;
-            bulletTransform = Instantiate(bullet, transform.position, transform.rotation).transform;
-            Rigidbody2D bulletRb = bulletTransform.GetComponent<Rigidbody2D>();
-            bullet Bullet = bulletTransform.GetComponent<bullet>();
-            Bullet.Enemy = transform;
-            yield return new WaitForFixedUpdate();
-            bulletRb.AddForce(dir * bulletSpeed, ForceMode2D.Impulse);
-            yield return new WaitForSeconds(cooldown);
-            stunned = false;
-            hittedEnemy = false;
+            hit.transform.GetComponent<movement>().die();
         }
         attacking = false;
+    }
+    
+    IEnumerator shoot(float cooldown)
+    {
+        attacking = true;
+        if(_enemyType == enemyType.bodyguard)
+        {
+            if(canAttack)
+            {
+                stunned = true;
+                bulletTransform = Instantiate(bullet, transform.position, transform.rotation).transform;
+                Rigidbody2D bulletRb = bulletTransform.GetComponent<Rigidbody2D>();
+                bullet Bullet = bulletTransform.GetComponent<bullet>();
+                Bullet.Enemy = transform;
+                yield return new WaitForFixedUpdate();
+                bulletRb.AddForce(dir * bulletSpeed, ForceMode2D.Impulse);
+                yield return new WaitForSeconds(cooldown);
+                stunned = false;
+                hittedEnemy = false;
+                canAttack = false;
+                StartCoroutine(AttackingCooldown());
+            }
+        }
+        attacking = false;
+    }
+
+    IEnumerator AttackingCooldown()
+    {
+        yield return new WaitForSeconds(5);
+        canAttack = true;
     }
 
     public void die(Vector2 direction)

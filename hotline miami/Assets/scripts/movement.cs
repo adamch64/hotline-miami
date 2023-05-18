@@ -243,7 +243,7 @@ public class movement : MonoBehaviour
     {
         freezed = true;
         enemy.hittedEnemy = true;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
         freezed = false;
     }
 
